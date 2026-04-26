@@ -1,0 +1,6 @@
+opencv-python-headless
+pillow
+matplotlib
+tf_keras
+tensorflowjs
+gradio

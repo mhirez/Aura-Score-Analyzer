@@ -1,0 +1,10 @@
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+aura_result.json
+face_crop.png
+aura_uploads/
+aura_image_uploads/
+aura_gradio_inputs/
+aura_models/
