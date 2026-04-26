@@ -56,7 +56,7 @@ flowchart LR
 
 ### 1. Input Image
 
-The user uploads one photo through the Colab cell or the Gradio website interface.
+The user uploads one photo through the Gradio website interface launched from Colab.
 
 ### 2. Image Preparation
 
@@ -231,11 +231,12 @@ Cell 3: Extract model zip files
 Cell 4: Define face-cropping display helpers
 Cell 5: Define model-loading and scoring helpers
 Cell 6: Load the models once
+Cell 7: Website-only note; no image upload happens here
 ```
 
 ### 3. Use the App
 
-For the website interface:
+Use the website interface:
 
 ```text
 Run Cell 8
@@ -244,13 +245,7 @@ Upload a photo
 Click Analyze Aura
 ```
 
-For the notebook-only version:
-
-```text
-Run Cell 7
-Upload one image
-Read the report in the notebook output
-```
+Cell 7 no longer asks for an image or runs analysis. All testing happens in Cell 8.
 
 ## Output Example
 
