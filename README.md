@@ -8,6 +8,11 @@
 
 ![Aura Score Pipeline](assets/aura_pipeline.png)
 
+## Live Website
+
+- Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
+- Colab notebook: [Open in Colab](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
+
 ## Overview
 
 **Aura Score Analyzer** is an interactive AI image-analysis project that estimates how strong a person's "aura" appears in a photo.
@@ -177,7 +182,10 @@ If no face is detected, the program uses the full image as a fallback and explai
 
 - Python
 - TensorFlow / Keras
+- `tf_keras` for legacy `.h5` model compatibility
+- TensorFlow.js conversion tooling
 - OpenCV
+- OpenCV Haar Cascade face detection
 - NumPy
 - Pillow
 - Matplotlib
