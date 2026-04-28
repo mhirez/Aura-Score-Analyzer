@@ -16,13 +16,6 @@
 - Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
 - Colab notebook: [Open in Colab](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
 
-## Project Docs
-
-- [Model Card](MODEL_CARD.md)
-- [Dataset Notes](DATASET.md)
-- [Contributing Guide](CONTRIBUTING.md)
-- [License](LICENSE)
-
 ## At A Glance
 
 | App Surface | What It Does |
@@ -71,6 +64,13 @@ The separate general model is included for comparison. It predicts whether the w
 **Transparent feature contributions**
 
 ![AuraAnalyzer feature contributions screen](assets/website-preview/03-feature-contributions.png)
+
+## Project Docs
+
+- [Model Card](MODEL_CARD.md)
+- [Dataset Notes](DATASET.md)
+- [Contributing Guide](CONTRIBUTING.md)
+- [License](LICENSE)
 
 ## Pipeline Graphic
 
