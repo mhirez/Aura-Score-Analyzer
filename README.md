@@ -116,7 +116,7 @@ This result is displayed separately because it is less transparent. It can say a
 
 Each transparent feature model contributes equally to the final score, keeping the result easy to inspect and explain.
 
-![Aura Score Composition](assets/score_components.svg)
+![Aura Score Composition](assets/aura_score_composition_v2.svg)
 
 ```text
 Aura Score = 100 * ((P(closed arms) + P(serious face) + P(glasses)) / 3)
