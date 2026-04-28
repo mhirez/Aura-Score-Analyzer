@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
   <img src="assets/aura_analyzer_pro_logo.png" alt="AuraAnalyzer.pro" width="520">
 </p>
 
