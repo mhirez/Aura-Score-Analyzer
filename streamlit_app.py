@@ -957,26 +957,6 @@ def inject_design_css():
             padding-bottom: 3rem;
         }
 
-        section[data-testid="stSidebar"] {
-            background: #0f2538;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        section[data-testid="stSidebar"] h1,
-        section[data-testid="stSidebar"] h2,
-        section[data-testid="stSidebar"] h3,
-        section[data-testid="stSidebar"] p,
-        section[data-testid="stSidebar"] li,
-        section[data-testid="stSidebar"] span,
-        section[data-testid="stSidebar"] label {
-            color: #eaf2f8;
-        }
-
-        section[data-testid="stSidebar"] code {
-            color: #143047;
-            white-space: pre-wrap;
-        }
-
         div[data-testid="stFileUploader"] section {
             background: var(--surface);
             border: 1px dashed #9bb0c2;
@@ -1261,17 +1241,6 @@ def inject_design_css():
             font-size: 0.88rem;
             line-height: 1.45;
             margin-top: 0.45rem;
-        }
-
-        .formula-box {
-            background: #f6f9fb;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 0.85rem;
-            color: #143047;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-            font-size: 0.88rem;
-            overflow-x: auto;
         }
 
         .flow-panel,
@@ -2067,7 +2036,6 @@ def render_comparison_cards(result_json):
 st.set_page_config(
     page_title="Aura Score Analyzer",
     layout="wide",
-    initial_sidebar_state="expanded",
 )
 
 inject_design_css()
@@ -2095,24 +2063,6 @@ st.markdown(
 )
 
 pipeline_image = ASSETS_DIR / "aura_pipeline.png"
-
-with st.sidebar:
-    st.markdown("### Project")
-    st.caption(
-        "Upload one photo. The app checks closed arms, serious face, and glasses, "
-        "then compares the transparent score with a general Aura model."
-    )
-    st.markdown("### Transparent Formula")
-    st.markdown(f'<div class="formula-box">{escape(AURA_EQUATION)}</div>', unsafe_allow_html=True)
-    st.markdown("### Model Inputs")
-    st.markdown(
-        """
-        - Closed arms model: full image
-        - Serious face model: face crop
-        - Glasses model: face crop
-        - General Aura model: full image
-        """
-    )
 
 input_col, graphic_col = st.columns([0.82, 1.18], gap="large")
 with input_col:
