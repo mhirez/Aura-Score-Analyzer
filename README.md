@@ -1,4 +1,6 @@
-# Aura Score Analyzer
+<p align="center">
+  <img src="assets/aura_analyzer_pro_logo.png" alt="AuraAnalyzer.pro" width="520">
+</p>
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
