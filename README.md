@@ -3,7 +3,7 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-orange)
-![Interface](https://img.shields.io/badge/Interface-Gradio-green)
+![Interface](https://img.shields.io/badge/Interface-Streamlit_and_Gradio-green)
 ![Project](https://img.shields.io/badge/Project-Explainable_AI-purple)
 
 ![Aura Score Pipeline](assets/aura_pipeline.png)
@@ -160,6 +160,7 @@ If no face is detected, the program uses the full image as a fallback and explai
 ## Main Features
 
 - Runs inside Google Colab
+- Runs as a Streamlit web app from GitHub
 - Includes a Gradio website interface
 - Downloads project files directly from GitHub
 - Uses three separate trained TensorFlow/Keras feature models
@@ -181,6 +182,7 @@ If no face is detected, the program uses the full image as a fallback and explai
 - Pillow
 - Matplotlib
 - Gradio
+- Streamlit
 - Google Colab
 - GitHub
 
@@ -191,6 +193,7 @@ Aura-Score-Analyzer/
 |
 +-- README.md
 +-- aura_score_analyzer_colab.ipynb
++-- streamlit_app.py
 +-- requirements.txt
 +-- general_model.zip
 |
@@ -206,6 +209,58 @@ Aura-Score-Analyzer/
 |
 +-- assets/
     +-- aura_pipeline.png
+```
+
+## Run as a Streamlit Web App
+
+The repository includes a standalone Streamlit app:
+
+```text
+streamlit_app.py
+```
+
+This app loads the same model ZIP files from the GitHub repository and lets users test photos directly in a web interface.
+
+### Deploy on Streamlit Community Cloud
+
+1. Go to:
+
+```text
+https://share.streamlit.io/
+```
+
+2. Sign in with GitHub.
+3. Click **New app**.
+4. Choose this repository:
+
+```text
+mhirez/Aura-Score-Analyzer
+```
+
+5. Set the branch to:
+
+```text
+main
+```
+
+6. Set the main file path to:
+
+```text
+streamlit_app.py
+```
+
+7. Click **Deploy**.
+
+Streamlit will install packages from `requirements.txt`, load the models, and start the web app.
+
+### Run Locally
+
+If you want to test it on your own computer:
+
+```powershell
+cd "C:\Users\Admin\Desktop\Aura Score Analyzer"
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
 ## How to Use in Google Colab
