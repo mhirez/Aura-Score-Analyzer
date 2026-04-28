@@ -987,44 +987,6 @@ def inject_design_css():
             padding: 1.6rem 1.7rem;
             margin-bottom: 1.25rem;
             box-shadow: 0 14px 34px rgba(15, 37, 56, 0.08);
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-            gap: 1.4rem;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .hero-visual {
-            background: #f6fafc;
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            min-height: 230px;
-            padding: 1rem;
-            display: grid;
-            place-items: center;
-        }
-
-        .hero-visual > svg {
-            width: 100%;
-            max-width: 430px;
-            height: auto;
-        }
-
-        .hero-pill-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .hero-pill {
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            background: #f7fafc;
-            color: var(--ink);
-            font-size: 0.82rem;
-            font-weight: 750;
-            padding: 0.42rem 0.7rem;
         }
 
         .eyebrow {
@@ -1245,9 +1207,7 @@ def inject_design_css():
 
         .flow-panel,
         .stack-panel,
-        .scale-panel,
-        .radar-panel,
-        .grade-panel {
+        .scale-panel {
             background: var(--surface);
             border: 1px solid var(--line);
             border-radius: 8px;
@@ -1429,134 +1389,9 @@ def inject_design_css():
             vertical-align: -0.05rem;
         }
 
-        .evidence-grid {
-            display: grid;
-            grid-template-columns: minmax(300px, 0.92fr) minmax(320px, 1.08fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .radar-panel {
-            min-height: 100%;
-        }
-
-        .radar-svg {
-            width: 100%;
-            max-width: 380px;
-            display: block;
-            margin: 0.2rem auto 0 auto;
-        }
-
-        .radar-grid-line {
-            fill: none;
-            stroke: #d7e2ea;
-            stroke-width: 1;
-        }
-
-        .radar-axis {
-            stroke: #b9c8d4;
-            stroke-width: 1.2;
-        }
-
-        .radar-shape {
-            fill: rgba(31, 138, 138, 0.24);
-            stroke: #1f8a8a;
-            stroke-width: 3;
-        }
-
-        .radar-dot {
-            fill: #123b57;
-            stroke: #ffffff;
-            stroke-width: 3;
-        }
-
-        .radar-label {
-            fill: #102033;
-            font-size: 12px;
-            font-weight: 800;
-            text-anchor: middle;
-        }
-
-        .radar-value {
-            fill: #5d6f82;
-            font-size: 11px;
-            font-weight: 700;
-            text-anchor: middle;
-        }
-
-        .grade-ladder {
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            min-height: 4.7rem;
-            border-radius: 8px;
-            overflow: visible;
-            border: 1px solid #d8e2ea;
-            margin-top: 2rem;
-        }
-
-        .grade-band {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 0.25rem;
-            color: #ffffff;
-            padding: 0.75rem 0.65rem;
-            min-width: 0;
-        }
-
-        .grade-band:first-child {
-            border-radius: 7px 0 0 7px;
-        }
-
-        .grade-band:nth-child(5) {
-            border-radius: 0 7px 7px 0;
-        }
-
-        .grade-band strong {
-            font-size: 0.86rem;
-            line-height: 1.1;
-        }
-
-        .grade-band span {
-            font-size: 0.72rem;
-            opacity: 0.9;
-        }
-
-        .grade-marker {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: #102033;
-            box-shadow: 0 0 0 3px #ffffff, 0 8px 20px rgba(16, 32, 51, 0.28);
-        }
-
-        .grade-marker-label {
-            position: absolute;
-            top: -0.15rem;
-            transform: translate(-50%, -100%);
-            background: #102033;
-            color: #ffffff;
-            border-radius: 999px;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.78rem;
-            font-weight: 850;
-            white-space: nowrap;
-        }
-
-        .visual-note {
-            color: var(--muted);
-            font-size: 0.9rem;
-            line-height: 1.45;
-            margin-top: 0.75rem;
-        }
-
         @media (max-width: 760px) {
-            .hero-panel,
             .score-panel,
             .summary-grid,
-            .evidence-grid,
             .flow-grid,
             .stack-legend {
                 grid-template-columns: 1fr;
@@ -1613,57 +1448,6 @@ def render_score_panel(score, grade, general_probability, comparison):
             </div>
         </div>
         """,
-        unsafe_allow_html=True,
-    )
-
-
-def hero_graphic_markup():
-    return (
-        f"""
-        <div class="hero-visual">
-            <svg viewBox="0 0 460 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="18" y="22" width="116" height="178" rx="14" fill="#ffffff" stroke="#d8e2ea" stroke-width="3"/>
-                <rect x="36" y="42" width="80" height="118" rx="10" fill="#eef4f8" stroke="#c5d4df" stroke-width="2"/>
-                <path d="M76 57c14 0 25 11 25 25v8H51v-8c0-14 11-25 25-25Z" fill="#dbe8ef"/>
-                <circle cx="76" cy="77" r="19" fill="#ffffff" stroke="#7f94a8" stroke-width="3"/>
-                <path d="M57 133l39 18M96 133l-39 18" stroke="#245f73" stroke-width="6" stroke-linecap="round"/>
-                <text x="76" y="185" text-anchor="middle" fill="#102033" font-size="13" font-weight="800">Photo</text>
-
-                <path d="M142 86H204" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M196 78l10 8-10 8" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M142 142H204" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M196 134l10 8-10 8" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-
-                <rect x="214" y="42" width="122" height="48" rx="10" fill="#123b57"/>
-                <rect x="214" y="106" width="122" height="48" rx="10" fill="#245f73"/>
-                <rect x="214" y="170" width="122" height="48" rx="10" fill="#1f8a8a"/>
-                <g transform="translate(226 51)" stroke="#ffffff">{icon_svg("closed_arms")}</g>
-                <g transform="translate(226 115)" stroke="#ffffff">{icon_svg("serious_face")}</g>
-                <g transform="translate(226 179)" stroke="#ffffff">{icon_svg("glasses")}</g>
-                <text x="282" y="70" fill="#ffffff" font-size="13" font-weight="850">Closed arms</text>
-                <text x="282" y="134" fill="#ffffff" font-size="13" font-weight="850">Serious face</text>
-                <text x="282" y="198" fill="#ffffff" font-size="13" font-weight="850">Glasses</text>
-
-                <path d="M346 66H386" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M346 130H386" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M346 194H386" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M386 66v128" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M386 130H404" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round"/>
-                <path d="M396 122l10 8-10 8" stroke="#8aa0b3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-
-                <rect x="406" y="87" width="38" height="86" rx="10" fill="#ffffff" stroke="#d8e2ea" stroke-width="3"/>
-                <text x="425" y="123" text-anchor="middle" fill="#123b57" font-size="24" font-weight="900">%</text>
-                <path d="M416 145h18" stroke="#16785f" stroke-width="5" stroke-linecap="round"/>
-                <path d="M416 157h12" stroke="#1f8a8a" stroke-width="5" stroke-linecap="round"/>
-            </svg>
-        </div>
-        """
-    )
-
-
-def render_hero_graphic():
-    st.markdown(
-        hero_graphic_markup(),
         unsafe_allow_html=True,
     )
 
@@ -1826,111 +1610,6 @@ def render_contribution_stack(result_json):
             )
 
 
-def render_evidence_radar(result_json):
-    items = result_json["transparent_component_models"]
-    values = {item["key"]: float(np.clip(item["target_probability"], 0.0, 1.0)) for item in items}
-    labels = {
-        "closed_arms": "Closed arms",
-        "serious_face": "Serious face",
-        "glasses": "Glasses",
-    }
-    order = ["closed_arms", "serious_face", "glasses"]
-    center_x = 190.0
-    center_y = 150.0
-    radius = 92.0
-    angles = [-90.0, 30.0, 150.0]
-
-    def point_for(angle_degrees, scale):
-        radians = math.radians(angle_degrees)
-        return center_x + math.cos(radians) * radius * scale, center_y + math.sin(radians) * radius * scale
-
-    grid_polygons = []
-    for scale in (0.25, 0.5, 0.75, 1.0):
-        points = " ".join(f"{point_for(angle, scale)[0]:.1f},{point_for(angle, scale)[1]:.1f}" for angle in angles)
-        grid_polygons.append(f'<polygon class="radar-grid-line" points="{points}"></polygon>')
-
-    axis_lines = []
-    label_nodes = []
-    value_points = []
-    for key, angle in zip(order, angles):
-        axis_x, axis_y = point_for(angle, 1.0)
-        label_x, label_y = point_for(angle, 1.24)
-        percent = values.get(key, 0.0) * 100.0
-        point_x, point_y = point_for(angle, values.get(key, 0.0))
-        axis_lines.append(f'<line class="radar-axis" x1="{center_x:.1f}" y1="{center_y:.1f}" x2="{axis_x:.1f}" y2="{axis_y:.1f}"></line>')
-        label_nodes.append(
-            f"""
-            <text class="radar-label" x="{label_x:.1f}" y="{label_y:.1f}">{escape(labels[key])}</text>
-            <text class="radar-value" x="{label_x:.1f}" y="{label_y + 16:.1f}">{percent:.1f}%</text>
-            """
-        )
-        value_points.append((point_x, point_y))
-
-    shape_points = " ".join(f"{x:.1f},{y:.1f}" for x, y in value_points)
-    dot_nodes = "".join(f'<circle class="radar-dot" cx="{x:.1f}" cy="{y:.1f}" r="5"></circle>' for x, y in value_points)
-
-    st.markdown(
-        f"""
-        <div class="radar-panel">
-            <div class="section-kicker">Evidence shape</div>
-            <svg class="radar-svg" viewBox="0 0 380 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                {''.join(grid_polygons)}
-                {''.join(axis_lines)}
-                <polygon class="radar-shape" points="{shape_points}"></polygon>
-                {dot_nodes}
-                {''.join(label_nodes)}
-            </svg>
-            <div class="visual-note">The wider the shape, the more strongly the transparent models found the features that increase the Aura Score.</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-
-def render_grade_ladder(result_json):
-    score = float(np.clip(result_json["final_aura_score"], 0.0, 100.0))
-    grade = result_json["grade"]
-    bands = [
-        ("Very low", "0-19.99", "#a84646"),
-        ("Low", "20-39.99", "#b8613b"),
-        ("Medium", "40-59.99", "#c78522"),
-        ("Strong", "60-79.99", "#1f6f8b"),
-        ("Very strong", "80-100", "#16785f"),
-    ]
-    band_html = "".join(
-        f"""
-        <div class="grade-band" style="background: {color};">
-            <strong>{label}</strong>
-            <span>{range_text}</span>
-        </div>
-        """
-        for label, range_text, color in bands
-    )
-    st.markdown(
-        f"""
-        <div class="grade-panel">
-            <div class="section-kicker">Grade ladder</div>
-            <div class="grade-ladder">
-                {band_html}
-                <div class="grade-marker" style="left: {score:.2f}%;"></div>
-                <div class="grade-marker-label" style="left: {score:.2f}%;">{score:.1f}</div>
-            </div>
-            <div class="visual-note">Final grade: <strong>{escape(grade)}</strong>. The marker shows where the transparent score lands on the 0-100 scale.</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-
-def render_evidence_graphics(result_json):
-    st.markdown('<div class="section-title">Evidence Graphics</div>', unsafe_allow_html=True)
-    left_column, right_column = st.columns([0.95, 1.05], gap="large")
-    with left_column:
-        render_evidence_radar(result_json)
-    with right_column:
-        render_grade_ladder(result_json)
-
-
 def render_feature_card(item):
     target_probability = float(item["target_probability"])
     contribution = float(item["contribution"])
@@ -2041,22 +1720,13 @@ st.set_page_config(
 inject_design_css()
 
 st.markdown(
-    f"""
+    """
     <div class="hero-panel">
-        <div>
-            <div class="eyebrow">Explainable AI project</div>
-            <h1 class="app-title">Aura Score Analyzer</h1>
-            <p class="app-subtitle">
-                A transparent image-analysis app that separates visible feature evidence from a general black-box Aura decision.
-            </p>
-            <div class="hero-pill-row">
-                <span class="hero-pill">Closed arms</span>
-                <span class="hero-pill">Serious face</span>
-                <span class="hero-pill">Glasses</span>
-                <span class="hero-pill">Black-box comparison</span>
-            </div>
-        </div>
-        {hero_graphic_markup()}
+        <div class="eyebrow">Explainable AI project</div>
+        <h1 class="app-title">Aura Score Analyzer</h1>
+        <p class="app-subtitle">
+            A transparent image-analysis app that separates visible feature evidence from a general black-box Aura decision.
+        </p>
     </div>
     """,
     unsafe_allow_html=True,
@@ -2123,7 +1793,6 @@ comparison = result_json["general_model_comparison"]
 st.markdown('<div class="section-title">Result</div>', unsafe_allow_html=True)
 render_score_panel(score, grade, general_probability, comparison)
 render_contribution_stack(result_json)
-render_evidence_graphics(result_json)
 
 st.markdown('<div class="section-title">Images Used By The Models</div>', unsafe_allow_html=True)
 image_col1, image_col2 = st.columns(2)
