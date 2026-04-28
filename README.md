@@ -18,18 +18,6 @@
 - Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
 - Colab notebook: [Open in Colab](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
 
-## Project Team
-
-Aura Score Analyzer was developed by **Mohammed Hirez** and **Lama Aladdin** as an undergraduate student project at the [University of Limerick](https://www.ul.ie/).
-
-## Academic Context
-
-| Academic Detail | Information |
-| --- | --- |
-| University | [University of Limerick](https://www.ul.ie/) |
-| Programme | [Bachelor/Master of Science in Artificial Intelligence and Machine Learning](https://www.ul.ie/courses/bachelormaster-science-artificial-intelligence-and-machine-learning) |
-| Module | [CS4242 - Machine Learning for Interactive Systems](https://bookofmodules.ul.ie/Default.aspx?ModuleCodeParameter=%7CCS4242%7C) |
-
 ## Project Docs
 
 - [Model Card](MODEL_CARD.md)
@@ -48,6 +36,8 @@ Aura Score Analyzer was developed by **Mohammed Hirez** and **Lama Aladdin** as 
 ## Overview
 
 **Aura Score Analyzer** is an interactive AI image-analysis project that estimates how strong a person's "aura" appears in a photo.
+
+This project was developed by **Mohammed Hirez** and **Lama Aladdin** at the [University of Limerick](https://www.ul.ie/) as part of the [Bachelor/Master of Science in Artificial Intelligence and Machine Learning](https://www.ul.ie/courses/bachelormaster-science-artificial-intelligence-and-machine-learning) programme and the [CS4242 - Machine Learning for Interactive Systems](https://bookofmodules.ul.ie/Default.aspx?ModuleCodeParameter=%7CCS4242%7C) module.
 
 The project uses two approaches:
 
