@@ -253,6 +253,117 @@ def read_labels(model_dir):
     return []
 
 
+def load_tfjs_layers_model(model_json_path):
+    model_json_path = Path(model_json_path)
+    with model_json_path.open("r", encoding="utf-8") as file:
+        model_json = json.load(file)
+
+    topology = model_json.get("modelTopology")
+    if not topology:
+        raise ValueError("The TensorFlow.js model.json file does not contain modelTopology.")
+
+    topology_json = json.dumps(topology)
+    load_errors = []
+    loaders = [tf.keras.models]
+    if tf_keras is not None:
+        loaders.insert(0, tf_keras.models)
+
+    model = None
+    for loader in loaders:
+        try:
+            model = loader.model_from_json(
+                topology_json,
+                custom_objects={"DepthwiseConv2D": CompatibleDepthwiseConv2D},
+            )
+            break
+        except Exception as error:
+            load_errors.append(str(error))
+
+    if model is None:
+        raise RuntimeError("Could not rebuild the TensorFlow.js model architecture: " + " | ".join(load_errors))
+
+    weight_arrays, weight_names = read_tfjs_weight_arrays(model_json_path, model_json)
+    set_tfjs_weights(model, weight_arrays, weight_names)
+    return model
+
+
+def read_tfjs_weight_arrays(model_json_path, model_json):
+    model_dir = Path(model_json_path).parent
+    weight_arrays = []
+    weight_names = []
+    dtype_map = {
+        "float32": np.float32,
+        "int32": np.int32,
+        "bool": np.bool_,
+    }
+
+    for group in model_json.get("weightsManifest", []):
+        binary_parts = []
+        for relative_path in group.get("paths", []):
+            binary_parts.append((model_dir / relative_path).read_bytes())
+        binary_data = b"".join(binary_parts)
+        offset = 0
+
+        for weight_info in group.get("weights", []):
+            dtype_name = weight_info.get("dtype", "float32")
+            if dtype_name not in dtype_map:
+                raise ValueError(f"Unsupported TensorFlow.js weight dtype: {dtype_name}")
+
+            shape = tuple(int(dim) for dim in weight_info.get("shape", []))
+            count = int(np.prod(shape)) if shape else 1
+            dtype = np.dtype(dtype_map[dtype_name])
+            byte_count = count * dtype.itemsize
+            chunk = binary_data[offset : offset + byte_count]
+            if len(chunk) != byte_count:
+                raise ValueError(f"Weight data ended early while reading {weight_info.get('name')}.")
+
+            array = np.frombuffer(chunk, dtype=dtype, count=count).reshape(shape).copy()
+            weight_arrays.append(array)
+            weight_names.append(str(weight_info.get("name", "")))
+            offset += byte_count
+
+    if not weight_arrays:
+        raise ValueError("The TensorFlow.js model does not contain any readable weights.")
+
+    return weight_arrays, weight_names
+
+
+def set_tfjs_weights(model, weight_arrays, weight_names):
+    current_weights = model.get_weights()
+    if len(current_weights) == len(weight_arrays):
+        shapes_match = all(tuple(current.shape) == tuple(new.shape) for current, new in zip(current_weights, weight_arrays))
+        if shapes_match:
+            model.set_weights(weight_arrays)
+            return
+
+    used_indexes = set()
+    mapped_arrays = []
+    for variable in model.weights:
+        variable_name = variable.name.split(":")[0]
+        try:
+            variable_shape = tuple(variable.shape.as_list())
+        except AttributeError:
+            variable_shape = tuple(variable.shape)
+        match_index = None
+
+        for index, (weight_name, weight_array) in enumerate(zip(weight_names, weight_arrays)):
+            if index in used_indexes:
+                continue
+            if tuple(weight_array.shape) != variable_shape:
+                continue
+            if variable_name.endswith(weight_name) or weight_name.endswith(variable_name):
+                match_index = index
+                break
+
+        if match_index is None:
+            raise ValueError(f"Could not match TensorFlow.js weight for Keras variable: {variable_name}")
+
+        used_indexes.add(match_index)
+        mapped_arrays.append(weight_arrays[match_index])
+
+    model.set_weights(mapped_arrays)
+
+
 def load_keras_model(model_path):
     model_path = Path(model_path)
     first_error = None
@@ -296,12 +407,10 @@ def load_keras_model(model_path):
 
     if is_tfjs_model:
         try:
-            import tensorflowjs as tfjs
-
-            return tfjs.converters.load_keras_model(str(model_path))
+            return load_tfjs_layers_model(model_path)
         except Exception as tfjs_error:
             raise RuntimeError(
-                "A TensorFlow.js model.json was found, but it could not be loaded by tensorflowjs. "
+                "A TensorFlow.js model.json was found, but it could not be loaded by the built-in TFJS loader. "
                 f"Original error: {tfjs_error}"
             ) from tfjs_error
 
