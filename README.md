@@ -9,6 +9,10 @@
 
 ![Aura Score Pipeline](assets/aura_pipeline.png)
 
+| Scoring Breakdown | Grade Bands |
+| --- | --- |
+| ![Aura Score Composition](assets/score_components.svg) | ![Aura Score Bands](assets/score_bands.svg) |
+
 ## Live Website
 
 - Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
@@ -20,6 +24,14 @@
 - [Dataset Notes](DATASET.md)
 - [Contributing Guide](CONTRIBUTING.md)
 - [License](LICENSE)
+
+## At A Glance
+
+| App Surface | What It Does |
+| --- | --- |
+| Streamlit app | Runs the repository as a web app directly from GitHub-hosted code and model assets. |
+| Colab notebook | Gives a guided, step-by-step demo flow for setup, model loading, and testing. |
+| Gradio interface | Provides the simple public-facing image upload and analysis experience inside Colab. |
 
 ## Overview
 
@@ -106,6 +118,8 @@ This result is displayed separately because it is less transparent. It can say a
 
 Each transparent feature model contributes equally to the final score.
 
+![Aura Score Composition](assets/score_components.svg)
+
 ```text
 Aura Score = 100 * ((P(closed arms) + P(serious face) + P(glasses)) / 3)
 ```
@@ -148,6 +162,8 @@ Aura Score = 80.00 / 100
 This would be interpreted as a **Very strong aura**, because all three target features are strongly detected.
 
 ## Score Grades
+
+![Aura Score Bands](assets/score_bands.svg)
 
 | Aura Score | Grade |
 | ---: | --- |

@@ -1,0 +1,55 @@
+<svg width="1200" height="360" viewBox="0 0 1200 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="360" rx="28" fill="#F7F4EE"/>
+  <rect x="36" y="36" width="1128" height="288" rx="24" fill="#FFFDF8" stroke="#E5DED0" stroke-width="2"/>
+
+  <text x="60" y="80" fill="#25211B" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">
+    Aura Score Composition
+  </text>
+  <text x="60" y="112" fill="#6B6257" font-family="Segoe UI, Arial, sans-serif" font-size="20">
+    Three transparent feature detectors contribute equally to the final explainable score.
+  </text>
+
+  <rect x="60" y="152" width="260" height="112" rx="20" fill="#D5E8FF"/>
+  <text x="84" y="190" fill="#133A66" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">
+    Closed Arms
+  </text>
+  <text x="84" y="223" fill="#244C79" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    Full image classifier
+  </text>
+  <text x="84" y="251" fill="#244C79" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    Weight: 33.33%
+  </text>
+
+  <rect x="340" y="152" width="260" height="112" rx="20" fill="#FFE3C7"/>
+  <text x="364" y="190" fill="#7A4311" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">
+    Serious Face
+  </text>
+  <text x="364" y="223" fill="#8A5520" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    Face crop classifier
+  </text>
+  <text x="364" y="251" fill="#8A5520" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    Weight: 33.33%
+  </text>
+
+  <rect x="620" y="152" width="260" height="112" rx="20" fill="#DDF3D8"/>
+  <text x="644" y="190" fill="#1F5A2A" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">
+    Glasses
+  </text>
+  <text x="644" y="223" fill="#2D6837" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    Face crop classifier
+  </text>
+  <text x="644" y="251" fill="#2D6837" font-family="Segoe UI, Arial, sans-serif" font-size="18">
+    Weight: 33.33%
+  </text>
+
+  <path d="M895 208H956" stroke="#8A8175" stroke-width="8" stroke-linecap="round"/>
+  <path d="M944 192L968 208L944 224" stroke="#8A8175" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="974" y="148" width="160" height="120" rx="24" fill="#25211B"/>
+  <text x="1002" y="188" fill="#FFF8EC" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="700">
+    Final Score
+  </text>
+  <text x="1018" y="223" fill="#FFF8EC" font-family="Segoe UI, Arial, sans-serif" font-size="36" font-weight="800">
+    0 - 100
+  </text>
+</svg>

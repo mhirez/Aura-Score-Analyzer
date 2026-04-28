@@ -1,0 +1,31 @@
+<svg width="1200" height="230" viewBox="0 0 1200 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="230" rx="28" fill="#FFFDF8"/>
+  <text x="50" y="58" fill="#25211B" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">
+    Aura Score Bands
+  </text>
+  <text x="50" y="90" fill="#6B6257" font-family="Segoe UI, Arial, sans-serif" font-size="20">
+    The project maps the final 0-100 score into five readable grade zones.
+  </text>
+
+  <rect x="50" y="124" width="220" height="54" rx="14" fill="#F2D6D6"/>
+  <rect x="274" y="124" width="220" height="54" rx="14" fill="#F6E6C8"/>
+  <rect x="498" y="124" width="220" height="54" rx="14" fill="#F7F1B8"/>
+  <rect x="722" y="124" width="220" height="54" rx="14" fill="#DCEFC8"/>
+  <rect x="946" y="124" width="204" height="54" rx="14" fill="#CDE8D8"/>
+
+  <text x="82" y="157" fill="#6F2323" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">
+    0-19.99  Very low
+  </text>
+  <text x="313" y="157" fill="#7C5314" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">
+    20-39.99  Low
+  </text>
+  <text x="540" y="157" fill="#78630D" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">
+    40-59.99  Medium
+  </text>
+  <text x="765" y="157" fill="#356118" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">
+    60-79.99  Strong
+  </text>
+  <text x="980" y="157" fill="#1B5B3C" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">
+    80-100  Very strong
+  </text>
+</svg>
