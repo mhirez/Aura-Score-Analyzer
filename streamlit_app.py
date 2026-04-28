@@ -5,6 +5,7 @@ import re
 import shutil
 import tempfile
 import zipfile
+from html import escape
 from pathlib import Path
 
 os.environ.setdefault("TF_USE_LEGACY_KERAS", "1")
@@ -888,99 +889,553 @@ def run_aura_analysis(input_image_path, loaded_models, loaded_general):
 
 
 def render_probability_bar(label, probability):
-    st.write(f"**{label}**")
-    st.progress(float(np.clip(probability, 0.0, 1.0)))
-    st.caption(f"{probability * 100:.2f}%")
+    probability = float(np.clip(probability, 0.0, 1.0))
+    percent_value = probability * 100.0
+    color = probability_color(probability)
+    st.markdown(
+        f"""
+        <div class="probability-block">
+            <div class="probability-head">
+                <span>{escape(label)}</span>
+                <strong>{percent_value:.2f}%</strong>
+            </div>
+            <div class="probability-track">
+                <div class="probability-fill" style="width: {percent_value:.2f}%; background: {color};"></div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def probability_color(probability):
+    probability = float(probability)
+    if probability >= 0.80:
+        return "#16785f"
+    if probability >= 0.60:
+        return "#1f6f8b"
+    if probability >= 0.40:
+        return "#c78522"
+    return "#a84646"
+
+
+def score_color(score):
+    score = float(score)
+    if score >= 80.0:
+        return "#16785f"
+    if score >= 60.0:
+        return "#1f6f8b"
+    if score >= 40.0:
+        return "#c78522"
+    return "#a84646"
+
+
+def inject_design_css():
+    st.markdown(
+        """
+        <style>
+        :root {
+            --page-bg: #f4f7fb;
+            --surface: #ffffff;
+            --surface-soft: #eef4f8;
+            --ink: #102033;
+            --muted: #5d6f82;
+            --line: #d8e2ea;
+            --navy: #123b57;
+            --teal: #1f8a8a;
+            --amber: #c78522;
+        }
+
+        .stApp {
+            background: var(--page-bg);
+            color: var(--ink);
+        }
+
+        .block-container {
+            max-width: 1180px;
+            padding-top: 1.4rem;
+            padding-bottom: 3rem;
+        }
+
+        section[data-testid="stSidebar"] {
+            background: #0f2538;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        section[data-testid="stSidebar"] h1,
+        section[data-testid="stSidebar"] h2,
+        section[data-testid="stSidebar"] h3,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] li,
+        section[data-testid="stSidebar"] span,
+        section[data-testid="stSidebar"] label {
+            color: #eaf2f8;
+        }
+
+        section[data-testid="stSidebar"] code {
+            color: #143047;
+            white-space: pre-wrap;
+        }
+
+        div[data-testid="stFileUploader"] section {
+            background: var(--surface);
+            border: 1px dashed #9bb0c2;
+            border-radius: 8px;
+        }
+
+        .stButton > button,
+        .stDownloadButton > button {
+            border-radius: 6px;
+            border: 1px solid #0e334d;
+            background: #123b57;
+            color: #ffffff;
+            font-weight: 700;
+            min-height: 3rem;
+        }
+
+        .stButton > button:hover,
+        .stDownloadButton > button:hover {
+            border-color: #1f8a8a;
+            background: #0f3148;
+            color: #ffffff;
+        }
+
+        .hero-panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1.6rem 1.7rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 14px 34px rgba(15, 37, 56, 0.08);
+        }
+
+        .eyebrow {
+            color: var(--teal);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .app-title {
+            color: var(--ink);
+            font-size: clamp(2rem, 3.4vw, 3.35rem);
+            font-weight: 850;
+            line-height: 1.02;
+            margin: 0;
+        }
+
+        .app-subtitle {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.55;
+            max-width: 780px;
+            margin: 0.85rem 0 0 0;
+        }
+
+        .section-kicker {
+            color: var(--teal);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            margin: 0.35rem 0 0.45rem 0;
+        }
+
+        .section-title {
+            color: var(--ink);
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin: 1.4rem 0 0.75rem 0;
+        }
+
+        .score-panel {
+            display: grid;
+            grid-template-columns: minmax(170px, 0.72fr) minmax(260px, 1.45fr);
+            gap: 1.2rem;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 12px 30px rgba(15, 37, 56, 0.07);
+        }
+
+        .score-ring {
+            --score-deg: 0deg;
+            --score-color: #1f6f8b;
+            width: min(190px, 100%);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin: 0 auto;
+            background: conic-gradient(var(--score-color) var(--score-deg), #e5edf4 0deg);
+            position: relative;
+        }
+
+        .score-ring::before {
+            content: "";
+            position: absolute;
+            inset: 14px;
+            background: var(--surface);
+            border-radius: 50%;
+            border: 1px solid #e4edf3;
+        }
+
+        .score-number {
+            position: relative;
+            z-index: 1;
+            font-size: 2.2rem;
+            font-weight: 850;
+            color: var(--ink);
+            line-height: 1;
+        }
+
+        .score-number span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            margin-top: 0.25rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.9rem;
+        }
+
+        .summary-card,
+        .feature-card,
+        .comparison-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 100%;
+        }
+
+        .summary-label,
+        .feature-label,
+        .comparison-label {
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            margin-bottom: 0.35rem;
+        }
+
+        .summary-value,
+        .feature-value,
+        .comparison-value {
+            color: var(--ink);
+            font-size: 1.45rem;
+            font-weight: 850;
+            line-height: 1.08;
+        }
+
+        .summary-caption,
+        .feature-caption,
+        .comparison-caption {
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.4;
+            margin-top: 0.45rem;
+        }
+
+        .feature-card {
+            box-shadow: 0 10px 24px rgba(15, 37, 56, 0.06);
+        }
+
+        .probability-block {
+            margin-top: 0.85rem;
+        }
+
+        .probability-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .probability-head strong {
+            color: var(--ink);
+        }
+
+        .probability-track {
+            height: 0.62rem;
+            background: #e8eef4;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            height: 100%;
+            border-radius: 999px;
+        }
+
+        .image-note {
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.45;
+            margin-top: 0.45rem;
+        }
+
+        .formula-box {
+            background: #f6f9fb;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 0.85rem;
+            color: #143047;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 760px) {
+            .score-panel,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel {
+                padding: 1.2rem;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_score_panel(score, grade, general_probability, comparison):
+    score = float(score)
+    general_probability = float(general_probability)
+    score_accent = score_color(score)
+    score_degrees = min(max(score, 0.0), 100.0) * 3.6
+    difference = float(comparison["absolute_difference_percentage_points"])
+    st.markdown(
+        f"""
+        <div class="score-panel">
+            <div class="score-ring" style="--score-deg: {score_degrees:.2f}deg; --score-color: {score_accent};">
+                <div class="score-number">{score:.1f}<span>out of 100</span></div>
+            </div>
+            <div>
+                <div class="section-kicker">Final result</div>
+                <div class="app-title" style="font-size: 2.25rem;">{escape(grade)}</div>
+                <p class="app-subtitle">{escape(comparison["summary"])}</p>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Transparent score</div>
+                        <div class="summary-value">{score:.2f}</div>
+                        <div class="summary-caption">Built from three visible feature probabilities.</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">General model</div>
+                        <div class="summary-value">{general_probability:.2f}%</div>
+                        <div class="summary-caption">Direct Aura probability without a clear visual reason.</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Difference</div>
+                        <div class="summary-value">{difference:.2f} pts</div>
+                        <div class="summary-caption">{escape(comparison["agreement_level"])}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_feature_card(item):
+    target_probability = float(item["target_probability"])
+    contribution = float(item["contribution"])
+    percent_value = float(np.clip(target_probability, 0.0, 1.0)) * 100.0
+    color = probability_color(target_probability)
+    st.markdown(
+        f"""
+        <div class="feature-card">
+            <div class="feature-label">{escape(item["display_name"])}</div>
+            <div class="feature-value">{target_probability * 100:.2f}%</div>
+            <div class="feature-caption">Contribution: {contribution:.2f} / 100</div>
+            <div class="probability-block">
+                <div class="probability-head">
+                    <span>Target probability</span>
+                    <strong>{percent_value:.2f}%</strong>
+                </div>
+                <div class="probability-track">
+                    <div class="probability-fill" style="width: {percent_value:.2f}%; background: {color};"></div>
+                </div>
+            </div>
+            <div class="feature-caption">{escape(item["explanation"])}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_comparison_cards(result_json):
+    comparison = result_json["general_model_comparison"]
+    transparent_score = float(result_json["final_aura_score"])
+    general_probability = float(result_json["general_model"]["target_probability"] * 100.0)
+    col1, col2, col3 = st.columns([1, 1, 1.2], gap="large")
+    with col1:
+        st.markdown(
+            f"""
+            <div class="comparison-card">
+                <div class="comparison-label">Transparent program</div>
+                <div class="comparison-value">{transparent_score:.2f}%</div>
+                <div class="comparison-caption">Closed arms + serious face + glasses, each with equal weight.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col2:
+        st.markdown(
+            f"""
+            <div class="comparison-card">
+                <div class="comparison-label">General model</div>
+                <div class="comparison-value">{general_probability:.2f}%</div>
+                <div class="comparison-caption">A single Aura prediction with no feature-level explanation.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col3:
+        st.markdown(
+            f"""
+            <div class="comparison-card">
+                <div class="comparison-label">Transparency lesson</div>
+                <div class="comparison-caption" style="font-size: 0.95rem;">{escape(comparison["transparency_note"])}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 st.set_page_config(
     page_title="Aura Score Analyzer",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-st.title("Aura Score Analyzer")
-st.caption("A transparent AI image-analysis app with a black-box model comparison.")
+inject_design_css()
+
+st.markdown(
+    """
+    <div class="hero-panel">
+        <div class="eyebrow">Explainable AI project</div>
+        <h1 class="app-title">Aura Score Analyzer</h1>
+        <p class="app-subtitle">
+            A transparent image-analysis app that separates visible feature evidence from a general black-box Aura decision.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 pipeline_image = ASSETS_DIR / "aura_pipeline.png"
-if pipeline_image.exists():
-    st.image(str(pipeline_image), use_container_width=True)
 
 with st.sidebar:
-    st.header("Project")
-    st.write(
+    st.markdown("### Project")
+    st.caption(
         "Upload one photo. The app checks closed arms, serious face, and glasses, "
         "then compares the transparent score with a general Aura model."
     )
-    st.header("Transparent Formula")
-    st.code(AURA_EQUATION, language="text")
-    st.header("Model Inputs")
-    st.write("- Closed arms model: full image")
-    st.write("- Serious face model: face crop")
-    st.write("- Glasses model: face crop")
-    st.write("- General Aura model: full image")
+    st.markdown("### Transparent Formula")
+    st.markdown(f'<div class="formula-box">{escape(AURA_EQUATION)}</div>', unsafe_allow_html=True)
+    st.markdown("### Model Inputs")
+    st.markdown(
+        """
+        - Closed arms model: full image
+        - Serious face model: face crop
+        - Glasses model: face crop
+        - General Aura model: full image
+        """
+    )
 
-uploaded_file = st.file_uploader(
-    "Upload a photo",
-    type=["jpg", "jpeg", "png", "webp"],
-    accept_multiple_files=False,
-)
+input_col, graphic_col = st.columns([0.82, 1.18], gap="large")
+with input_col:
+    st.markdown('<div class="section-kicker">Input</div>', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader(
+        "Upload a photo",
+        type=["jpg", "jpeg", "png", "webp"],
+        accept_multiple_files=False,
+    )
 
-loaded_models = None
-loaded_general = None
+    upload_key = None
+    if uploaded_file is not None:
+        upload_key = f"{uploaded_file.name}:{getattr(uploaded_file, 'size', 'unknown')}"
 
-try:
-    loaded_models, loaded_general = load_all_models()
-except Exception as error:
-    st.error("The models could not be loaded.")
-    st.exception(error)
-    st.stop()
+    analyze_clicked = st.button("Analyze Aura", type="primary", use_container_width=True)
+
+with graphic_col:
+    st.markdown('<div class="section-kicker">Pipeline</div>', unsafe_allow_html=True)
+    if pipeline_image.exists():
+        st.image(str(pipeline_image), use_container_width=True)
+    else:
+        st.info("Pipeline graphic is not available.")
 
 if uploaded_file is None:
     st.info("Upload a photo to start the Aura Score analysis.")
     st.stop()
 
-analyze_clicked = st.button("Analyze Aura", type="primary", use_container_width=True)
+if analyze_clicked:
+    try:
+        with st.spinner("Loading models..."):
+            loaded_models, loaded_general = load_all_models()
+    except Exception as error:
+        st.error("The models could not be loaded.")
+        st.exception(error)
+        st.stop()
 
-if not analyze_clicked:
+    with st.spinner("Analyzing image..."):
+        input_image_path = save_uploaded_image(uploaded_file)
+        report_text, result_json = run_aura_analysis(input_image_path, loaded_models, loaded_general)
+
+    st.session_state["aura_upload_key"] = upload_key
+    st.session_state["aura_report_text"] = report_text
+    st.session_state["aura_result_json"] = result_json
+elif st.session_state.get("aura_upload_key") == upload_key:
+    report_text = st.session_state["aura_report_text"]
+    result_json = st.session_state["aura_result_json"]
+else:
     st.info("Click Analyze Aura after uploading the photo.")
     st.stop()
-
-with st.spinner("Analyzing image..."):
-    input_image_path = save_uploaded_image(uploaded_file)
-    report_text, result_json = run_aura_analysis(input_image_path, loaded_models, loaded_general)
 
 score = result_json["final_aura_score"]
 grade = result_json["grade"]
 general_probability = result_json["general_model"]["target_probability"] * 100.0
 comparison = result_json["general_model_comparison"]
 
-metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
-metric_col1.metric("Transparent Aura Score", f"{score:.2f} / 100")
-metric_col2.metric("Grade", grade)
-metric_col3.metric("General Model Aura", f"{general_probability:.2f}%")
-metric_col4.metric("Difference", f"{comparison['absolute_difference_percentage_points']:.2f} pts")
+st.markdown('<div class="section-title">Result</div>', unsafe_allow_html=True)
+render_score_panel(score, grade, general_probability, comparison)
 
+st.markdown('<div class="section-title">Images Used By The Models</div>', unsafe_allow_html=True)
 image_col1, image_col2 = st.columns(2)
 with image_col1:
-    st.subheader("Original Image")
+    st.markdown('<div class="section-kicker">Full image</div>', unsafe_allow_html=True)
     st.image(result_json["input_image_path"], use_container_width=True)
 with image_col2:
-    st.subheader("Face Crop / Fallback")
+    st.markdown('<div class="section-kicker">Face crop or fallback</div>', unsafe_allow_html=True)
     st.image(result_json["face_crop_path"], use_container_width=True)
-    st.caption(result_json["face_crop_note"])
+    st.markdown(f'<div class="image-note">{escape(result_json["face_crop_note"])}</div>', unsafe_allow_html=True)
 
-st.subheader("Transparent Feature Contributions")
+st.markdown('<div class="section-title">Transparent Feature Contributions</div>', unsafe_allow_html=True)
 feature_cols = st.columns(3)
 for column, item in zip(feature_cols, result_json["transparent_component_models"]):
     with column:
-        st.metric(item["display_name"], f"{item['target_probability'] * 100:.2f}%")
-        st.caption(f"Contribution: {item['contribution']:.2f} / 100")
-        render_probability_bar("Target probability", item["target_probability"])
-        st.write(item["explanation"])
+        render_feature_card(item)
 
-st.subheader("Black-Box General Model Comparison")
-st.write(comparison["summary"])
-st.write(comparison["transparency_note"])
+st.markdown('<div class="section-title">Transparent Score vs General Model</div>', unsafe_allow_html=True)
+render_comparison_cards(result_json)
 
 with st.expander("All class probabilities"):
     for item in result_json["transparent_component_models"]:
@@ -992,7 +1447,7 @@ with st.expander("All class probabilities"):
         for label, probability in result_json["general_model"]["all_probabilities"].items()
     })
 
-with st.expander("Full text report", expanded=True):
+with st.expander("Full text report", expanded=False):
     st.text(report_text)
 
 st.download_button(
