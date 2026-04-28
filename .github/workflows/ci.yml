@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify Python syntax
+        run: |
+          python -m py_compile streamlit_app.py
+
+      - name: Validate notebook and documentation files
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          required_files = [
+              "README.md",
+              "LICENSE",
+              "CONTRIBUTING.md",
+              "MODEL_CARD.md",
+              "DATASET.md",
+              "streamlit_app.py",
+              "requirements.txt",
+              "aura_score_analyzer_colab.ipynb",
+          ]
+
+          missing = [path for path in required_files if not Path(path).exists()]
+          if missing:
+              raise SystemExit(f"Missing required files: {missing}")
+
+          notebook = json.loads(Path("aura_score_analyzer_colab.ipynb").read_text(encoding="utf-8"))
+          if "cells" not in notebook:
+              raise SystemExit("Notebook JSON is missing the 'cells' field.")
+
+          readme = Path("README.md").read_text(encoding="utf-8")
+          if "AuraAnalyzer.pro" not in readme:
+              raise SystemExit("README.md should mention the live website.")
+
+          print("Repository validation checks passed.")
+          PY

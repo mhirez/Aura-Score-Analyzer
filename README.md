@@ -5,6 +5,7 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-orange)
 ![Interface](https://img.shields.io/badge/Interface-Streamlit_and_Gradio-green)
 ![Project](https://img.shields.io/badge/Project-Explainable_AI-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ![Aura Score Pipeline](assets/aura_pipeline.png)
 
@@ -12,6 +13,13 @@
 
 - Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
 - Colab notebook: [Open in Colab](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
+
+## Project Docs
+
+- [Model Card](MODEL_CARD.md)
+- [Dataset Notes](DATASET.md)
+- [Contributing Guide](CONTRIBUTING.md)
+- [License](LICENSE)
 
 ## Overview
 
@@ -515,3 +523,11 @@ The diagram file is stored at:
 ```text
 assets/aura_pipeline.png
 ```
+
+## Contributing
+
+Contributions are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md) for setup, expectations, and pull-request guidance.
+
+## License
+
+The repository code is available under the [MIT License](LICENSE). Dataset files and model artifacts may have separate provenance or usage considerations, so check [DATASET.md](DATASET.md) and [MODEL_CARD.md](MODEL_CARD.md) before redistributing those assets.
