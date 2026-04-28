@@ -1149,6 +1149,44 @@ def inject_design_css():
 
         .feature-card {
             box-shadow: 0 10px 24px rgba(15, 37, 56, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--feature-accent, var(--teal));
+        }
+
+        .feature-top {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
+            padding-right: 0.5rem;
+        }
+
+        .feature-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            background: #eef6f7;
+            border: 1px solid #d6e8ed;
+            color: var(--feature-accent, var(--teal));
+        }
+
+        .feature-icon svg {
+            width: 34px;
+            height: 34px;
+            stroke: currentColor;
         }
 
         .probability-block {
@@ -1198,10 +1236,201 @@ def inject_design_css():
             overflow-x: auto;
         }
 
+        .flow-panel,
+        .stack-panel,
+        .scale-panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 10px 24px rgba(15, 37, 56, 0.06);
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.35fr 1fr 0.35fr 1fr 0.35fr 1fr;
+            gap: 0.55rem;
+            align-items: stretch;
+        }
+
+        .flow-node {
+            min-height: 104px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #f8fbfd;
+            padding: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .flow-node.dark {
+            background: #123b57;
+            color: #ffffff;
+            border-color: #123b57;
+        }
+
+        .flow-node.dark .flow-caption,
+        .flow-node.dark .flow-label {
+            color: #eaf2f8;
+        }
+
+        .flow-icon {
+            color: var(--teal);
+            margin-bottom: 0.45rem;
+        }
+
+        .flow-node.dark .flow-icon {
+            color: #ffffff;
+        }
+
+        .flow-icon svg {
+            width: 34px;
+            height: 34px;
+            stroke: currentColor;
+        }
+
+        .flow-label {
+            color: var(--ink);
+            font-size: 0.95rem;
+            font-weight: 850;
+            line-height: 1.2;
+        }
+
+        .flow-caption {
+            color: var(--muted);
+            font-size: 0.78rem;
+            line-height: 1.3;
+            margin-top: 0.25rem;
+        }
+
+        .flow-arrow {
+            display: grid;
+            place-items: center;
+            color: #7f94a8;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .stack-bar {
+            display: flex;
+            height: 2.2rem;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #e8eef4;
+            border: 1px solid #d8e2ea;
+        }
+
+        .stack-segment {
+            min-width: 2px;
+            display: grid;
+            place-items: center;
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 850;
+            white-space: nowrap;
+        }
+
+        .stack-empty {
+            flex: 1;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 750;
+        }
+
+        .stack-legend {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.7rem;
+            margin-top: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            line-height: 1.25;
+        }
+
+        .legend-swatch {
+            width: 0.85rem;
+            height: 0.85rem;
+            border-radius: 3px;
+            flex: 0 0 auto;
+        }
+
+        .scale-track {
+            position: relative;
+            height: 3.1rem;
+            margin: 1rem 0 0.6rem 0;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #a84646 0%, #c78522 40%, #1f6f8b 65%, #16785f 100%);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+        }
+
+        .scale-marker {
+            position: absolute;
+            top: -0.55rem;
+            transform: translateX(-50%);
+            width: 0.95rem;
+            height: 4.2rem;
+            border-radius: 999px;
+            border: 3px solid #ffffff;
+            box-shadow: 0 5px 16px rgba(15, 37, 56, 0.25);
+        }
+
+        .scale-marker.transparent {
+            background: #102033;
+        }
+
+        .scale-marker.general {
+            background: #ffffff;
+            border-color: #102033;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 750;
+        }
+
+        .marker-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+        }
+
+        .marker-dot {
+            display: inline-block;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 999px;
+            margin-right: 0.35rem;
+            vertical-align: -0.05rem;
+        }
+
         @media (max-width: 760px) {
             .score-panel,
-            .summary-grid {
+            .summary-grid,
+            .flow-grid,
+            .stack-legend {
                 grid-template-columns: 1fr;
+            }
+
+            .flow-arrow {
+                min-height: 1rem;
+                transform: rotate(90deg);
             }
 
             .hero-panel {
@@ -1254,17 +1483,179 @@ def render_score_panel(score, grade, general_probability, comparison):
     )
 
 
+def feature_accent(key):
+    accents = {
+        "closed_arms": "#245f73",
+        "serious_face": "#7b5a9b",
+        "glasses": "#1f8a8a",
+        "general_aura": "#123b57",
+        "score": "#16785f",
+    }
+    return accents.get(str(key), "#1f8a8a")
+
+
+def icon_svg(name):
+    icons = {
+        "image": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="8" y="9" width="32" height="30" rx="4"></rect>
+                <circle cx="18" cy="19" r="3"></circle>
+                <path d="M12 34l9-9 6 6 4-4 6 7"></path>
+            </svg>
+        """,
+        "crop": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 7v26h26"></path>
+                <path d="M7 15h26v26"></path>
+                <circle cx="24" cy="24" r="7"></circle>
+                <path d="M20 31c2.5 2 5.5 2 8 0"></path>
+            </svg>
+        """,
+        "closed_arms": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="24" cy="10" r="5"></circle>
+                <path d="M24 16v18"></path>
+                <path d="M14 22l20 9"></path>
+                <path d="M34 22l-20 9"></path>
+                <path d="M18 41l6-7 6 7"></path>
+            </svg>
+        """,
+        "serious_face": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="24" cy="24" r="16"></circle>
+                <path d="M17 21h.01"></path>
+                <path d="M31 21h.01"></path>
+                <path d="M18 31h12"></path>
+            </svg>
+        """,
+        "glasses": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="16" cy="25" r="8"></circle>
+                <circle cx="32" cy="25" r="8"></circle>
+                <path d="M24 25h0"></path>
+                <path d="M8 22l-4-4"></path>
+                <path d="M40 22l4-4"></path>
+            </svg>
+        """,
+        "models": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="8" y="9" width="12" height="12" rx="2"></rect>
+                <rect x="28" y="9" width="12" height="12" rx="2"></rect>
+                <rect x="8" y="29" width="12" height="12" rx="2"></rect>
+                <rect x="28" y="29" width="12" height="12" rx="2"></rect>
+                <path d="M20 15h8M20 35h8M14 21v8M34 21v8"></path>
+            </svg>
+        """,
+        "score": """
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10 36h28"></path>
+                <path d="M14 36V24"></path>
+                <path d="M24 36V14"></path>
+                <path d="M34 36V20"></path>
+                <path d="M12 14l7 6 8-10 9 7"></path>
+            </svg>
+        """,
+    }
+    return icons.get(str(name), icons["score"])
+
+
+def render_model_flow_graphic():
+    st.markdown(
+        f"""
+        <div class="flow-panel">
+            <div class="flow-grid">
+                <div class="flow-node">
+                    <div class="flow-icon">{icon_svg("image")}</div>
+                    <div class="flow-label">Uploaded photo</div>
+                    <div class="flow-caption">One image enters the system.</div>
+                </div>
+                <div class="flow-arrow">-&gt;</div>
+                <div class="flow-node">
+                    <div class="flow-icon">{icon_svg("crop")}</div>
+                    <div class="flow-label">Two views</div>
+                    <div class="flow-caption">Full image and face crop.</div>
+                </div>
+                <div class="flow-arrow">-&gt;</div>
+                <div class="flow-node">
+                    <div class="flow-icon">{icon_svg("models")}</div>
+                    <div class="flow-label">Four models</div>
+                    <div class="flow-caption">Three transparent features plus one general model.</div>
+                </div>
+                <div class="flow-arrow">-&gt;</div>
+                <div class="flow-node dark">
+                    <div class="flow-icon">{icon_svg("score")}</div>
+                    <div class="flow-label">Aura report</div>
+                    <div class="flow-caption">Score, grade, probabilities, and comparison.</div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_contribution_stack(result_json):
+    items = result_json["transparent_component_models"]
+    final_score = float(result_json["final_aura_score"])
+    segments = []
+    legend_items = []
+    for item in items:
+        contribution = float(item["contribution"])
+        width = max(0.0, min(100.0, contribution))
+        color = feature_accent(item["key"])
+        label = escape(item["display_name"])
+        inner_label = f"{contribution:.1f}" if width >= 7.0 else ""
+        segments.append(
+            f'<div class="stack-segment" style="width: {width:.2f}%; background: {color};">{inner_label}</div>'
+        )
+        legend_items.append(
+            f"""
+            <div class="legend-item">
+                <span class="legend-swatch" style="background: {color};"></span>
+                <span>{label}: {contribution:.2f} pts</span>
+            </div>
+            """
+        )
+
+    remainder = max(0.0, 100.0 - final_score)
+    remainder_html = ""
+    if remainder > 0.01:
+        remainder_html = f'<div class="stack-empty" style="width: {remainder:.2f}%;">unused {remainder:.1f}</div>'
+
+    st.markdown(
+        f"""
+        <div class="stack-panel">
+            <div class="section-kicker">Score composition</div>
+            <div class="stack-bar">
+                {''.join(segments)}
+                {remainder_html}
+            </div>
+            <div class="stack-legend">
+                {''.join(legend_items)}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_feature_card(item):
     target_probability = float(item["target_probability"])
     contribution = float(item["contribution"])
     percent_value = float(np.clip(target_probability, 0.0, 1.0)) * 100.0
     color = probability_color(target_probability)
+    accent = feature_accent(item["key"])
     st.markdown(
         f"""
-        <div class="feature-card">
-            <div class="feature-label">{escape(item["display_name"])}</div>
-            <div class="feature-value">{target_probability * 100:.2f}%</div>
-            <div class="feature-caption">Contribution: {contribution:.2f} / 100</div>
+        <div class="feature-card" style="--feature-accent: {accent};">
+            <div class="feature-top">
+                <div class="feature-icon">{icon_svg(item["key"])}</div>
+                <div>
+                    <div class="feature-label">{escape(item["display_name"])}</div>
+                    <div class="feature-value">{target_probability * 100:.2f}%</div>
+                    <div class="feature-caption">Contribution: {contribution:.2f} / 100</div>
+                </div>
+            </div>
             <div class="probability-block">
                 <div class="probability-head">
                     <span>Target probability</span>
@@ -1275,6 +1666,36 @@ def render_feature_card(item):
                 </div>
             </div>
             <div class="feature-caption">{escape(item["explanation"])}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_comparison_scale(result_json):
+    comparison = result_json["general_model_comparison"]
+    transparent_score = float(np.clip(result_json["final_aura_score"], 0.0, 100.0))
+    general_probability = float(np.clip(result_json["general_model"]["target_probability"] * 100.0, 0.0, 100.0))
+    st.markdown(
+        f"""
+        <div class="scale-panel">
+            <div class="section-kicker">Visual comparison scale</div>
+            <div class="scale-track">
+                <div class="scale-marker transparent" style="left: {transparent_score:.2f}%;"></div>
+                <div class="scale-marker general" style="left: {general_probability:.2f}%;"></div>
+            </div>
+            <div class="scale-labels">
+                <span>0</span>
+                <span>Low</span>
+                <span>Medium</span>
+                <span>Strong</span>
+                <span>100</span>
+            </div>
+            <div class="marker-legend">
+                <span><span class="marker-dot" style="background: #102033;"></span>Transparent score: {transparent_score:.2f}%</span>
+                <span><span class="marker-dot" style="background: #ffffff; border: 2px solid #102033;"></span>General model: {general_probability:.2f}%</span>
+                <span>{escape(comparison["agreement_level"])}</span>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1383,6 +1804,8 @@ with graphic_col:
     else:
         st.info("Pipeline graphic is not available.")
 
+render_model_flow_graphic()
+
 if uploaded_file is None:
     st.info("Upload a photo to start the Aura Score analysis.")
     st.stop()
@@ -1417,6 +1840,7 @@ comparison = result_json["general_model_comparison"]
 
 st.markdown('<div class="section-title">Result</div>', unsafe_allow_html=True)
 render_score_panel(score, grade, general_probability, comparison)
+render_contribution_stack(result_json)
 
 st.markdown('<div class="section-title">Images Used By The Models</div>', unsafe_allow_html=True)
 image_col1, image_col2 = st.columns(2)
@@ -1436,6 +1860,7 @@ for column, item in zip(feature_cols, result_json["transparent_component_models"
 
 st.markdown('<div class="section-title">Transparent Score vs General Model</div>', unsafe_allow_html=True)
 render_comparison_cards(result_json)
+render_comparison_scale(result_json)
 
 with st.expander("All class probabilities"):
     for item in result_json["transparent_component_models"]:
