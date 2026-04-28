@@ -16,20 +16,6 @@
 - Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
 - Colab notebook: [Open in Colab](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
 
-## Website Preview
-
-**Upload and analysis pipeline**
-
-![AuraAnalyzer upload and pipeline screen](assets/website-preview/01-upload-and-pipeline.png)
-
-**Aura score result summary**
-
-![AuraAnalyzer result summary screen](assets/website-preview/02-result-summary.png)
-
-**Transparent feature contributions**
-
-![AuraAnalyzer feature contributions screen](assets/website-preview/03-feature-contributions.png)
-
 ## Project Docs
 
 - [Model Card](MODEL_CARD.md)
@@ -71,6 +57,20 @@ Instead of depending only on one large model, the main scoring system combines t
 The more strongly these features appear in the image, the higher the final Aura Score becomes.
 
 The separate general model is included for comparison. It predicts whether the whole image looks like **Aura** or **Not Aura**, but it does not clearly explain why.
+
+## Website Preview
+
+**Upload and analysis pipeline**
+
+![AuraAnalyzer upload and pipeline screen](assets/website-preview/01-upload-and-pipeline.png)
+
+**Aura score result summary**
+
+![AuraAnalyzer result summary screen](assets/website-preview/02-result-summary.png)
+
+**Transparent feature contributions**
+
+![AuraAnalyzer feature contributions screen](assets/website-preview/03-feature-contributions.png)
 
 ## Pipeline Graphic
 
