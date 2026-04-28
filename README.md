@@ -18,6 +18,18 @@
 - Website: [AuraAnalyzer.pro](https://auraanalyzer.pro)
 - Colab notebook: [Open in Colab](https://colab.research.google.com/github/mhirez/Aura-Score-Analyzer/blob/main/aura_score_analyzer_colab.ipynb)
 
+## Project Team
+
+Aura Score Analyzer was developed by **Mohammed Hirez** and **Lama Aladdin** as an undergraduate student project at the [University of Limerick](https://www.ul.ie/).
+
+## Academic Context
+
+| Academic Detail | Information |
+| --- | --- |
+| University | [University of Limerick](https://www.ul.ie/) |
+| Programme | [Bachelor/Master of Science in Artificial Intelligence and Machine Learning](https://www.ul.ie/courses/bachelormaster-science-artificial-intelligence-and-machine-learning) |
+| Module | [CS4242 - Machine Learning for Interactive Systems](https://bookofmodules.ul.ie/Default.aspx?ModuleCodeParameter=%7CCS4242%7C) |
+
 ## Project Docs
 
 - [Model Card](MODEL_CARD.md)
