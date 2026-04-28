@@ -1,8 +1,12 @@
+# Streamlit Community Cloud currently defaults to Python 3.12.
+# The TensorFlow ecosystem packages are pinned together so installation is stable.
 streamlit
-tensorflow
-opencv-python-headless
+tensorflow==2.19.0
+tf-keras==2.19.0
+tensorflow-decision-forests==1.12.0
+tensorflowjs==4.22.0
+tensorflow-hub==0.16.1
+opencv-python-headless==4.10.0.84
 pillow
-matplotlib
-tf_keras
-tensorflowjs
-gradio
+numpy==1.26.4
+packaging==23.2

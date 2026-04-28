@@ -249,16 +249,26 @@ main
 streamlit_app.py
 ```
 
-7. Click **Deploy**.
+7. Open **Advanced settings** and set the Python version to:
 
-Streamlit will install packages from `requirements.txt`, load the models, and start the web app.
+```text
+3.12
+```
+
+8. Click **Deploy**.
+
+Streamlit will install packages from `requirements.txt`, load the models, and start the web app. The TensorFlow packages in `requirements.txt` are pinned together because `tensorflowjs` also installs TensorFlow Decision Forests, and that package must match the TensorFlow version.
+
+If the app was already created with a different Python version, delete that Streamlit app and deploy it again. Streamlit's Python version is selected when the app is created.
 
 ### Run Locally
 
-If you want to test it on your own computer:
+The Streamlit app is easiest to run on Streamlit Community Cloud or Google Colab. Local running is best on Linux, macOS, or Windows WSL because TensorFlow Decision Forests does not provide native Windows wheels.
 
-```powershell
-cd "C:\Users\Admin\Desktop\Aura Score Analyzer"
+```bash
+cd "Aura Score Analyzer"
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
