@@ -1351,29 +1351,6 @@ def inject_design_css():
             font-weight: 750;
         }
 
-        .stack-legend {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.7rem;
-            margin-top: 0.8rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            color: var(--muted);
-            font-size: 0.85rem;
-            line-height: 1.25;
-        }
-
-        .legend-swatch {
-            width: 0.85rem;
-            height: 0.85rem;
-            border-radius: 3px;
-            flex: 0 0 auto;
-        }
-
         .scale-track {
             position: relative;
             height: 3.1rem;
@@ -1783,7 +1760,7 @@ def render_contribution_stack(result_json):
     items = result_json["transparent_component_models"]
     final_score = float(result_json["final_aura_score"])
     segments = []
-    legend_rows = []
+    contribution_rows = []
     for item in items:
         contribution = float(item["contribution"])
         width = max(0.0, min(100.0, contribution))
@@ -1792,7 +1769,7 @@ def render_contribution_stack(result_json):
         segments.append(
             f'<div class="stack-segment" style="width: {width:.2f}%; background: {color};">{inner_label}</div>'
         )
-        legend_rows.append((item["display_name"], contribution, color))
+        contribution_rows.append((item["display_name"], contribution))
 
     remainder = max(0.0, 100.0 - final_score)
     remainder_html = ""
@@ -1812,18 +1789,10 @@ def render_contribution_stack(result_json):
         unsafe_allow_html=True,
     )
 
-    legend_cols = st.columns(len(legend_rows))
-    for column, (label, contribution, color) in zip(legend_cols, legend_rows):
+    contribution_cols = st.columns(len(contribution_rows))
+    for column, (label, contribution) in zip(contribution_cols, contribution_rows):
         with column:
-            st.markdown(
-                f"""
-                <div class="legend-item">
-                    <span class="legend-swatch" style="background: {color};"></span>
-                    <span>{escape(label)}: {contribution:.2f} pts</span>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+            st.metric(label, f"{contribution:.2f} pts")
 
 
 def render_evidence_radar(result_json):
