@@ -273,6 +273,22 @@ pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
+### GitHub Codespaces Troubleshooting
+
+If a Codespaces preview shows an error that mentions `tensorflowjs`, the Codespace is running an older version of the app or has old packages installed.
+
+Run this in the Codespaces terminal:
+
+```bash
+git pull
+python -m pip uninstall -y tensorflowjs tensorflow-decision-forests tensorflow-hub
+python -m pip install --user --upgrade -r requirements.txt
+streamlit cache clear
+streamlit run streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false
+```
+
+If the error is still there, rebuild the Codespace container so it uses the current `.devcontainer/devcontainer.json`.
+
 ## How to Use in Google Colab
 
 ### 1. Open the Notebook
